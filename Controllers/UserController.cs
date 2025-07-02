@@ -15,9 +15,15 @@ namespace WEBapi.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public UserData GetUserById(int id)
+        public ActionResult<UserData> GetUserById(int id)
         {
-            return UsersRepository.Users.FirstOrDefault(user => user.Id == id);
+            var user = UsersRepository.Users.FirstOrDefault(u => u.Id == id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+            return user;
         }
     }
 }
